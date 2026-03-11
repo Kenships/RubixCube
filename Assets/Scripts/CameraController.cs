@@ -1,58 +1,52 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using UnityEngine;
 
-namespace DefaultNamespace
+public class CameraController : MonoBehaviour
 {
-    public class CameraController : MonoBehaviour
+    [SerializeField] private InputReaderSO inputReader;
+    
+    private bool _isMouseDown;
+    
+    private void Start()
     {
-        [SerializeField] private InputReaderSO inputReader;
-        [SerializeField] private Transform camera;
+        inputReader.OnMouseMove += OnMouseMove;
+        inputReader.OnRightClick += OnClick;
+        inputReader.OnRightRelease += OnRelease;
+    }
     
-        private bool _isMouseDown;
-    
-        private void Start()
-        {
-            inputReader.OnMouseMove += OnMouseMove;
-            inputReader.OnRightClick += OnClick;
-            inputReader.OnRightRelease += OnRelease;
-        }
-    
-        private void OnDestroy()
-        {
-            inputReader.OnMouseMove -= OnMouseMove;
-            inputReader.OnRightClick -= OnClick;
-            inputReader.OnRightRelease -= OnRelease;
-        }
+    private void OnDestroy()
+    {
+        inputReader.OnMouseMove -= OnMouseMove;
+        inputReader.OnRightClick -= OnClick;
+        inputReader.OnRightRelease -= OnRelease;
+    }
 
-        private void OnRelease()
-        {
-            _isMouseDown = false;
-        }
+    private void OnRelease()
+    {
+        _isMouseDown = false;
+    }
 
-        private void OnClick()
-        {
-            _isMouseDown = true;
-        }
+    private void OnClick()
+    {
+        _isMouseDown = true;
+    }
 
-        private Vector3 axis;
+    private Vector3 axis;
 
-        private void OnMouseMove(Vector2 direction)
-        {
-            if (!_isMouseDown) return;
+    private void OnMouseMove(Vector2 direction)
+    {
+        if (!_isMouseDown) return;
         
-            axis = new Vector3(-direction.y, direction.x, 0).normalized;
+        axis = new Vector3(-direction.y, direction.x, 0).normalized;
         
-            transform.Rotate(axis, direction.magnitude, Space.Self);
-        }
+        transform.Rotate(axis, direction.magnitude, Space.Self);
+    }
 
-        private void OnDrawGizmos()
+    private void OnDrawGizmos()
+    {
+        if (transform)
         {
-            if (transform)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawLine(transform.position, transform.position + axis * 10f);
-            }
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, transform.position + axis * 10f);
         }
     }
 }
