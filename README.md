@@ -2,7 +2,7 @@
 
 ### Part 1: Setup ```(60 min)```
 
-0) Set up project from git ```(5 min)```
+0) Set up project from git (5 min)
 
 1) Unity editor (15 min)
     - important pannels
