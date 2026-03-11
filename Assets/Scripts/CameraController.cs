@@ -30,23 +30,12 @@ public class CameraController : MonoBehaviour
         _isMouseDown = true;
     }
 
-    private Vector3 axis;
-
-    private void OnMouseMove(Vector2 direction)
+    private void OnMouseMove(Vector2 movementDelta)
     {
         if (!_isMouseDown) return;
         
-        axis = new Vector3(-direction.y, direction.x, 0).normalized;
+        Vector3 axis = new Vector3(-movementDelta.y, movementDelta.x, 0).normalized;
         
-        transform.Rotate(axis, direction.magnitude, Space.Self);
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (transform)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position, transform.position + axis * 10f);
-        }
+        transform.Rotate(axis, movementDelta.magnitude);
     }
 }

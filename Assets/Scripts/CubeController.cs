@@ -21,6 +21,11 @@ public class CubeController : MonoBehaviour
         inputReader.OnLeftClick += OnLeftClick;
     }
 
+    private void OnDestroy()
+    {
+        inputReader.OnLeftClick -= OnLeftClick;
+    }
+
     private void OnLeftClick()
     {
         if (_isRotating) return;
@@ -40,10 +45,7 @@ public class CubeController : MonoBehaviour
         
         if (Physics.OverlapBoxNonAlloc(normal, new Vector3(3f, 0.4f, 3f), _buffer, normalRotation) == 0) return;
         
-        foreach (Collider col in _buffer)
-        {
-            col.transform.SetParent(pivot);
-        }
+        ParentAllCollidersTo(pivot);
         
         Quaternion targetRotation = Quaternion.AngleAxis(rotation, normal) * pivot.rotation;
 
@@ -55,14 +57,13 @@ public class CubeController : MonoBehaviour
             duration: turnDuration
         ).OnComplete(() =>
             {
-                foreach (Collider col in _buffer)
-                {
-                    col.transform.SetParent(transform);
-                }
+                ParentAllCollidersTo(transform);
                 _isRotating = false;
             }
         );
     }
+    
+    #region Solving Cube
 
     public void Solve()
     {
@@ -81,9 +82,23 @@ public class CubeController : MonoBehaviour
             Rotate(move.normal, -move.rotation);
         }
     }
+    
+    #endregion
 
+    #region Utility
+    
+    private void ParentAllCollidersTo(Transform parent)
+    {
+        foreach (Collider col in _buffer)
+        {
+            col.transform.SetParent(parent);
+        }
+    }
+    
     public void SetRotation(float rotation)
     {
         _rotationAngle = rotation;
     }
+    
+    #endregion
 }
