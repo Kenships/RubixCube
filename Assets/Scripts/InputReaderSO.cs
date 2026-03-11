@@ -7,8 +7,10 @@ using UnityEngine.InputSystem;
 public class InputReaderSO : ScriptableObject, InputSystem_Actions.IPlayerActions
 {
     public UnityAction<Vector2> OnMouseMove;
-    public UnityAction OnClick;
-    public UnityAction OnRelease;
+    public UnityAction OnLeftClick;
+    public UnityAction OnLeftRelease;
+    public UnityAction OnRightClick;
+    public UnityAction OnRightRelease;
     
     private InputSystem_Actions inputActions;
     
@@ -16,6 +18,13 @@ public class InputReaderSO : ScriptableObject, InputSystem_Actions.IPlayerAction
     {
         inputActions ??= new InputSystem_Actions();
         inputActions.Player.SetCallbacks(this);
+        inputActions.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Player.SetCallbacks(null);
+        inputActions.Player.Disable();
     }
 
     public void OnLook(InputAction.CallbackContext context)
@@ -31,12 +40,25 @@ public class InputReaderSO : ScriptableObject, InputSystem_Actions.IPlayerAction
     {
         if (context.performed)
         {
-            OnClick?.Invoke();
+            OnLeftClick?.Invoke();
         }
 
         if (context.canceled)
         {
-            OnRelease?.Invoke();
+            OnLeftRelease?.Invoke();
+        }
+    }
+
+    public void OnAltAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            OnRightClick?.Invoke();
+        }
+
+        if (context.canceled)
+        {
+            OnRightRelease?.Invoke();
         }
     }
 }
