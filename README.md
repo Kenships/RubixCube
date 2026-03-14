@@ -20,8 +20,7 @@
     - Remove Quad colliders
     - duplicate to make full cube
 
-4) Camera (20 min)
-    - Cinemachine -> package manager
+4) Camera (15 min)
     - CameraController Script, rotate on right mouse down
 
 5) Skybox (5 min)
