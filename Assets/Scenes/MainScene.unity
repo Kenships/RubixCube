@@ -17289,6 +17289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2095390028}
+  - component: {fileID: 2095390029}
   m_Layer: 0
   m_Name: rubix
   m_TagString: Untagged
@@ -17337,6 +17338,20 @@ Transform:
   - {fileID: 1570970967}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2095390029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095390027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b2684fcdf6be9a4493479784ed0b26d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CubeController
+  inputReader: {fileID: 11400000, guid: daf5bf47d17fb684497f441dc452c3da, type: 2}
+  pivot: {fileID: 2117591418}
 --- !u!1 &2102057289
 GameObject:
   m_ObjectHideFlags: 0
@@ -17517,6 +17532,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2103166335}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2117591417
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2117591418}
+  m_Layer: 0
+  m_Name: cubeRotationPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2117591418
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117591417}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -17524,3 +17570,4 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 1472515414}
   - {fileID: 2095390028}
+  - {fileID: 2117591418}
