@@ -11,8 +11,9 @@ public class CubeController : MonoBehaviour
     [SerializeField] private Transform pivot;
     private Collider[] colliders = new Collider[9];
     private bool _isRotating = false;
-    private Stack <Vector3> _history = new();
-    
+    private Stack <(Vector3 norm, float angle)> _history = new();
+    public float Rotation { get; set; } = 90f;
+
     private void Start()
     {
         inputReader.OnLeftClick += OnLeftClick;
@@ -27,8 +28,8 @@ public class CubeController : MonoBehaviour
         {
             return;
         } 
-        _history.Push(hit.normal);
-        Rotate(hit.normal, 90);
+        _history.Push((hit.normal, Rotation));
+        Rotate(hit.normal, Rotation);
     }
 
     private void Rotate(Vector3 normal, float angle)
@@ -60,12 +61,12 @@ public class CubeController : MonoBehaviour
     {
         while (_history.Count > 0)
         {
-            var normal = _history.Pop();
+            var unit = _history.Pop();
             while (_isRotating)
             {
                 yield return null;
             }
-            Rotate(normal, -90);
+            Rotate(unit.norm, -unit.angle);
         }
     }
     public void Solve()
