@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,6 +11,7 @@ public class CubeController : MonoBehaviour
     [SerializeField] private Transform pivot;
     private Collider[] colliders = new Collider[9];
     private bool _isRotating = false;
+    private Stack <Vector3> _history = new();
     
     private void Start()
     {
@@ -24,15 +27,21 @@ public class CubeController : MonoBehaviour
         {
             return;
         } 
+        _history.Push(hit.normal);
+        Rotate(hit.normal, 90);
+    }
+
+    private void Rotate(Vector3 normal, float angle)
+    {
         _isRotating = true;
-        Quaternion boxRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
-        Physics.OverlapBoxNonAlloc(hit.normal, new Vector3(3f, 0.4f, 3f), colliders, boxRotation);
+        Quaternion boxRotation = Quaternion.FromToRotation(Vector3.up, normal);
+        Physics.OverlapBoxNonAlloc(normal, new Vector3(3f, 0.4f, 3f), colliders, boxRotation);
         foreach (var col in colliders)
         {
             col.transform.SetParent(pivot);
         }
     
-        Quaternion targetRotation = Quaternion.AngleAxis(90, hit.normal)*pivot.rotation;
+        Quaternion targetRotation = Quaternion.AngleAxis(angle, normal)*pivot.rotation;
         Tween.Rotation(
             target: pivot,
             endValue: targetRotation,
@@ -45,5 +54,22 @@ public class CubeController : MonoBehaviour
                          }
                          _isRotating = false;
                      });
+    }
+
+    private IEnumerator SolveRoutine()
+    {
+        while (_history.Count > 0)
+        {
+            var normal = _history.Pop();
+            while (_isRotating)
+            {
+                yield return null;
+            }
+            Rotate(normal, -90);
+        }
+    }
+    public void Solve()
+    {
+        StartCoroutine(SolveRoutine());
     }
 }
