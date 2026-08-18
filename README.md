@@ -1,4 +1,4 @@
-# RubixCube Lesson Plan ```(<140 min)```
+# Rubik's Cube Lesson Plan ```(<140 min)```
 
 ### Part 1: Setup ```(60 min)```
 
@@ -15,7 +15,7 @@
 
 2) Make materials (note make unlit shader) (5 min)
 
-3) Make Rubix Cube Model (15 min)
+3) Make Rubik's Cube Model (15 min)
     - make unit cube
     - Remove Quad colliders
     - duplicate to make full cube
